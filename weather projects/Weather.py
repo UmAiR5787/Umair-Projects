@@ -1,10 +1,22 @@
 import os
+from getpass import getpass
+from pathlib import Path
+
 from dotenv import load_dotenv
 import requests
-load_dotenv("weatherkey.env")
+
+env_path = Path(__file__).with_name("weatherkey.env")
+load_dotenv(env_path)
 
 city=input("======== Weather ========\nEnter city name:\n")
-api_key= os.getenv("API_KEY")
+api_key = os.getenv("API_KEY")
+if not api_key:
+   print("First-time setup: enter your API key below; it will not be displayed.")
+   api_key = getpass("OpenWeather API key: ")
+   if api_key:
+      env_path.write_text(f"API_KEY={api_key}\n", encoding="utf-8")
+if not api_key:
+   raise RuntimeError("An OpenWeather API key is required.")
 url1=f"https://api.openweathermap.org/data/2.5/forecast?q={city}&appid={api_key}&units=metric"
 url2=f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
 op=input("===== Enter option =====\n (1 for current)\n (2. for week's forecast ) \n ")
