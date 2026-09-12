@@ -1,7 +1,10 @@
+import os
+from dotenv import load_dotenv
 import requests
+load_dotenv("weatherkey.env")
 
 city=input("======== Weather ========\nEnter city name:\n")
-api_key="4006eae6118bf0174a58b9cc3634c247"
+api_key= os.getenv("API_KEY")
 url1=f"https://api.openweathermap.org/data/2.5/forecast?q={city}&appid={api_key}&units=metric"
 url2=f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
 op=input("===== Enter option =====\n (1 for current)\n (2. for week's forecast ) \n ")
